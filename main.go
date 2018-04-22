@@ -58,9 +58,10 @@ func main() {
 					if err != nil {
 						log.Println(f)
 						log.Println(wr_id)
-						prevWrId := ""
 						wrIdSearch := title_re.FindAllString(bodystr, -1)
-						for i, ft := range wrIdSearch {
+						prevWrId := title_re.FindStringSubmatch(wrIdSearch[0])[1]
+						// ignore first ( doesn't have prev article to link )
+						for i, ft := range wrIdSearch[1:] {
 							wrId := title_re.FindStringSubmatch(ft)[1]
 							if wrId == wr_id {
 								nextWrId := title_re.FindStringSubmatch(wrIdSearch[i+1])[1]
@@ -92,7 +93,7 @@ func main() {
 			}
 		}
 		log.Println("rechecked...")
-		time.Sleep(30 * time.Minute)
+		time.Sleep(10 * time.Minute)
 	}
 }
 
