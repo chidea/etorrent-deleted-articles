@@ -29,7 +29,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 func main() {
 	ctx := context.Background()
-	opt := option.WithCredentialsFile("../etorrent-cb3fd-firebase-adminsdk-jdmom-bc2c5fa9fb.json")
+	opt := option.WithCredentialsFile("etorrent-cb3fd-firebase-adminsdk-jdmom-bc2c5fa9fb.json")
 	client, err := firestore.NewClient(ctx, "etorrent-cb3fd", opt)
 	if err != nil {
 		log.Fatalln(err)
@@ -44,9 +44,11 @@ func main() {
 	d := doc.Data()
 	log.Println(d["prev"], d["next"])*/
 
-	port := os.Getenv("PORT")
-	http.HandleFunc("/", hello)
-	http.ListenAndServe(":"+port, nil)
+	go func() {
+		port := os.Getenv("PORT")
+		http.HandleFunc("/", hello)
+		http.ListenAndServe(":"+port, nil)
+	}()
 
 	for {
 		for _, bo_table := range []string{"etohumor", "etoboard"} { //, "star", "movie", "any",
