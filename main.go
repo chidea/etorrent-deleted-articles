@@ -24,7 +24,7 @@ var title_re *regexp.Regexp = regexp.MustCompile("/img/icon_subject.gif\"[^<]+<a
 
 func main() {
 	ctx := context.Background()
-	opt := option.WithCredentialsFile("etorrent-cb3fd-firebase-adminsdk-jdmom-bc2c5fa9fb.json")
+	opt := option.WithCredentialsFile("../etorrent-cb3fd-firebase-adminsdk-jdmom-bc2c5fa9fb.json")
 	client, err := firestore.NewClient(ctx, "etorrent-cb3fd", opt)
 	if err != nil {
 		log.Fatalln(err)
