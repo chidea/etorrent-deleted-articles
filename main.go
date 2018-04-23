@@ -10,9 +10,11 @@ import (
 	"golang.org/x/net/context"
 	//"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 	//"strings"
 	_ "strconv"
@@ -22,6 +24,9 @@ import (
 var del_re *regexp.Regexp = regexp.MustCompile("<a href=\"[^?]+\\?bo_table=[^&]+&wr_id=([0-9]+)[^\"]*\">(<[^<]+){7,20}.+<img src='\\.\\./skin/board/[^/]+/img/icon_secret\\.gif'")
 var title_re *regexp.Regexp = regexp.MustCompile("/img/icon_subject.gif\"[^<]+<a href=\"[^?]+\\?bo_table=[^&]+&wr_id=([0-9]+)[^\"]*\">")
 
+func hello(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "hello")
+}
 func main() {
 	ctx := context.Background()
 	opt := option.WithCredentialsFile("../etorrent-cb3fd-firebase-adminsdk-jdmom-bc2c5fa9fb.json")
@@ -38,6 +43,10 @@ func main() {
 	}
 	d := doc.Data()
 	log.Println(d["prev"], d["next"])*/
+
+	port := os.Getenv("PORT")
+	http.HandleFunc("/", hello)
+	http.ListenAndServe(":"+port, nil)
 
 	for {
 		for _, bo_table := range []string{"etohumor", "etoboard"} { //, "star", "movie", "any",
